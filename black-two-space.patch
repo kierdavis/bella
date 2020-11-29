@@ -1,0 +1,13 @@
+diff --git a/black.py b/black.py
+index a48f647..9de7f8f 100644
+--- a/black.py
++++ b/black.py
+@@ -1537,7 +1537,7 @@ class Line:
+         if not self:
+             return "\n"
+ 
+-        indent = "    " * self.depth
++        indent = "  " * self.depth
+         leaves = iter(self.leaves)
+         first = next(leaves)
+         res = f"{first.prefix}{indent}{first.value}"

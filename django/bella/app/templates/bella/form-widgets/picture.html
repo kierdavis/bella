@@ -1,0 +1,5 @@
+{% if widget.value is not None %}
+  <img src="{{ widget.value.url }}" style="max-width: 15rem; max-height: 15rem"/>
+{% else %}
+  {% include "django/forms/widgets/file.html" %}
+{% endif %}

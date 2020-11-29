@@ -1,0 +1,25 @@
+{% extends "bella/page.html" %}
+
+{% block title %}
+Garments
+{% endblock %}
+
+{% block content %}
+  <p style="text-align: right">
+    <a href="{% url 'new_garment' %}"><i>Create New</i></a>
+  </p>
+  <section>
+    {% for garment in garment_list %}
+      <a href="{% url 'garment' garment.id %}">
+        <aside>
+          <h3>{{ garment.name }}</h3>
+          {% with picture=garment.pictures.first %}
+            {% if picture %}
+              <img src="{{ picture.file.url }}" style="width: 100%"/>
+            {% endif %}
+          {% endwith %}
+        </aside>
+      </a>
+    {% endfor %}
+  </section>
+{% endblock %}

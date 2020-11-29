@@ -1,0 +1,29 @@
+{% extends "bella/page.html" %}
+
+{% block title %}
+  {% if outfit %}
+    {{ outfit.name }}
+  {% else %}
+    New Outfit
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <form
+    action="{% if outfit %}{% url 'outfit' outfit.id %}{% else %}{% url 'new_outfit' %}{% endif %}"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %}
+    <table>
+      {{ outfit_form }}
+      {{ picture_formset }}
+    </table>
+    <p>
+      {% if outfit %}
+        <button type="submit" name="submit" value="delete" class="secondary">Delete</button>
+      {% endif %}
+      <button type="submit" name="submit" value="save">Save</button>
+    </p>
+  </form>
+{% endblock %}

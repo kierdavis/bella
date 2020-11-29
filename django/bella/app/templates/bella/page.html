@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="{% static 'bella/mvp.css' %}">
+    <meta charset="utf-8"/>
+    <title>{% block title %}{% endblock %} :: bella</title>
+    <style type="text/css">
+      nav {
+        margin-bottom: 0;
+      }
+      hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+      button.secondary {
+        /* copy-paste from `a i` */
+        background: none;
+        color: var(--color);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="{% url 'garments' %}">Garments</a></li>
+          <li><a href="{% url 'outfits' %}">Outfits</a></li>
+          <li><a href="{% url 'admin:index' %}">Admin</a></li>
+        </ul>
+      </nav>
+    </header>
+    <hr/>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>
