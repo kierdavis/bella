@@ -1,4 +1,2 @@
 secrets.nix
 result
-__pycache__
-*.pyc
