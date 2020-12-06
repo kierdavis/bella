@@ -18,6 +18,16 @@ class GarmentForm(forms.ModelForm):
     model = Garment
     fields = ["name"]
 
+  outfits = forms.ModelMultipleChoiceField(queryset=Outfit.objects, required=False)
+
+  def __init__(self, *args, **kwargs):
+    kwargs.setdefault("initial", {}).setdefault("outfits", kwargs["instance"].outfits.all())
+    super().__init__(*args, **kwargs)
+
+  def save(self, *args, **kwargs):
+    self.instance.outfits.set(self.cleaned_data["outfits"])
+    return super().save(*args, **kwargs)
+
 
 GarmentPictureFormSet = forms.inlineformset_factory(
   parent_model=Garment,
@@ -32,7 +42,7 @@ GarmentPictureFormSet = forms.inlineformset_factory(
 class OutfitForm(forms.ModelForm):
   class Meta:
     model = Outfit
-    fields = ["name"]
+    fields = ["name", "garments"]
 
 
 OutfitPictureFormSet = forms.inlineformset_factory(
