@@ -1,0 +1,20 @@
+{{ picture_formset.management_form }}
+<table>
+  <tr>
+    <th>Pictures</th>
+    <th>Delete?</th>
+  </tr>
+  {% for picture_form in picture_formset %}
+    <tr>
+      {% if picture_form.DELETE %}
+        <td>{{ picture_form.file }}<br/>{{ picture_form.file.errors }}</td>
+        <td>{{ picture_form.DELETE }}<br/>{{ picture_form.DELETE.errors }}</td>
+      {% else %}
+        <td colspan="2">{{ picture_form.file }}<br/>{{ picture_form.file.errors }}</td>
+      {% endif %}
+    </tr>
+    {% for field in picture_form.hidden_fields %}
+      {{ field }}
+    {% endfor %}
+  {% endfor %}
+</table>

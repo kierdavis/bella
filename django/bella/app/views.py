@@ -51,7 +51,7 @@ class GarmentView(View):
     return render(
       request,
       "bella/garment.html",
-      {f"garment_form": form, "picture_formset": picture_formset,},
+      {"garment": obj, f"garment_form": form, "picture_formset": picture_formset},
     )
 
 
@@ -87,5 +87,5 @@ class OutfitView(View):
     return render(
       request,
       "bella/outfit.html",
-      {f"outfit_form": form, "picture_formset": picture_formset,},
+      {"outfit": obj, "outfit_form": form, "picture_formset": picture_formset},
     )

@@ -15,10 +15,8 @@
     enctype="multipart/form-data"
   >
     {% csrf_token %}
-    <table>
-      {{ outfit_form }}
-      {{ picture_formset }}
-    </table>
+    {{ outfit_form.as_p }}
+    {% include "bella/picture_formset.html" %}
     <p>
       {% if outfit %}
         <button type="submit" name="submit" value="delete" class="secondary">Delete</button>
