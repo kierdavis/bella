@@ -19,36 +19,6 @@ def index(request):
   return redirect("garments", permanent=True)
 
 
-class BaseObjectWithPicturesView(View):
-  def dispatch(self, request, obj_id=None):
-    if obj_id is not None:
-      obj = get_object_or_404(self.model, pk=obj_id)
-    else:
-      obj = None
-    if request.method == "POST":
-      if obj is not None and request.POST.get("submit") == "delete":
-        obj.delete()
-        return redirect(self.list_url, permanent=False)
-      else:
-        form = self.form_class(request.POST, request.FILES, instance=obj)
-        picture_formset = self.picture_formset_class(
-          request.POST, request.FILES, instance=form.instance
-        )
-        if form.is_valid() and picture_formset.is_valid():
-          form.save()
-          picture_formset.save()
-          return redirect(self.detail_url, form.instance.id, permanent=False)
-    else:
-      form = self.form_class(instance=obj)
-      picture_formset = self.picture_formset_class(instance=form.instance)
-    model_name = self.model.__name__.lower()
-    return render(
-      request,
-      self.template_name,
-      {model_name: obj, f"{model_name}_form": form, "picture_formset": picture_formset,},
-    )
-
-
 class GarmentsView(ListView):
   template_name = "bella/garments.html"
 
@@ -56,13 +26,33 @@ class GarmentsView(ListView):
     return Garment.objects.all()
 
 
-class GarmentView(BaseObjectWithPicturesView):
-  model = Garment
-  form_class = GarmentForm
-  picture_formset_class = GarmentPictureFormSet
-  template_name = "bella/garment.html"
-  list_url = "garments"
-  detail_url = "garment"
+class GarmentView(View):
+  def dispatch(self, request, obj_id=None):
+    if obj_id is not None:
+      obj = get_object_or_404(Garment, pk=obj_id)
+    else:
+      obj = None
+    if request.method == "POST":
+      if obj is not None and request.POST.get("submit") == "delete":
+        obj.delete()
+        return redirect("garments", permanent=False)
+      else:
+        form = GarmentForm(request.POST, request.FILES, instance=obj)
+        picture_formset = GarmentPictureFormSet(
+          request.POST, request.FILES, instance=form.instance
+        )
+        if form.is_valid() and picture_formset.is_valid():
+          form.save()
+          picture_formset.save()
+          return redirect("garment", form.instance.id, permanent=False)
+    else:
+      form = GarmentForm(instance=obj)
+      picture_formset = GarmentPictureFormSet(instance=form.instance)
+    return render(
+      request,
+      "bella/garment.html",
+      {f"garment_form": form, "picture_formset": picture_formset,},
+    )
 
 
 class OutfitsView(ListView):
@@ -72,10 +62,30 @@ class OutfitsView(ListView):
     return Outfit.objects.all()
 
 
-class OutfitView(BaseObjectWithPicturesView):
-  model = Outfit
-  form_class = OutfitForm
-  picture_formset_class = OutfitPictureFormSet
-  template_name = "bella/outfit.html"
-  list_url = "outfits"
-  detail_url = "outfit"
+class OutfitView(View):
+  def dispatch(self, request, obj_id=None):
+    if obj_id is not None:
+      obj = get_object_or_404(Outfit, pk=obj_id)
+    else:
+      obj = None
+    if request.method == "POST":
+      if obj is not None and request.POST.get("submit") == "delete":
+        obj.delete()
+        return redirect("outfits", permanent=False)
+      else:
+        form = OutfitForm(request.POST, request.FILES, instance=obj)
+        picture_formset = OutfitPictureFormSet(
+          request.POST, request.FILES, instance=form.instance
+        )
+        if form.is_valid() and picture_formset.is_valid():
+          form.save()
+          picture_formset.save()
+          return redirect("outfit", form.instance.id, permanent=False)
+    else:
+      form = OutfitForm(instance=obj)
+      picture_formset = OutfitPictureFormSet(instance=form.instance)
+    return render(
+      request,
+      "bella/outfit.html",
+      {f"outfit_form": form, "picture_formset": picture_formset,},
+    )
